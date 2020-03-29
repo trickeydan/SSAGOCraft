@@ -1,0 +1,6 @@
+name: SSAGOCraft
+main: io.trickey.ssagocraft.SSAGOCraftPlugin
+version: 1.0-SNAPSHOT
+description: Various tweaks for SSAGOCraft
+author: Dan Trickey
+database: false
