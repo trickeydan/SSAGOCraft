@@ -6,6 +6,6 @@ public final class SSAGOCraftPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("Hello World!");
+        getServer().getPluginManager().registerEvents(new TreeFeller(this), this);
     }
 }
