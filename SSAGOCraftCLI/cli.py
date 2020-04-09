@@ -1,4 +1,4 @@
-#! /opt/minecraft/ssagocraft/SSAGOCraftCLI/venv/bin/python3
+#! /opt/minecraft/SSAGOCraft/SSAGOCraftCLI/venv/bin/python3
 import os
 from sys import argv
 
