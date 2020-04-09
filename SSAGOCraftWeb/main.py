@@ -39,7 +39,7 @@ def whitelist_player(username: str) -> str:
     return result
 
 
-@app.route('/api', methods=['POST'])
+@app.route('/api/whitelist', methods=['POST'])
 def whitelist():
     data = request.get_json()
 
