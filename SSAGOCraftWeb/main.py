@@ -38,7 +38,7 @@ def whitelist_player(username: str) -> str:
     LOGGER.error(f"Whitelisting {username} -> {result}")
     return result
 
-@app.route('/', methods=['GET'])
+@app.route('/api', methods=['GET'])
 def index():
     return "SSAGOCraft API", 200
 
