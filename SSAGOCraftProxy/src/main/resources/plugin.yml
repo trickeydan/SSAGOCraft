@@ -1,0 +1,4 @@
+name: SSAGOCraftProxyPlugin
+main: io.trickey.SSAGOCraftProxy.SSAGOCraftProxyPlugin
+version: 1.0
+author: Dan Trickey
