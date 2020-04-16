@@ -19,7 +19,7 @@ public class WhitelistChecker {
 
     public boolean isWhitelisted(PendingConnection p) throws IOException {
         try {
-            endpoint = new URL("https://minecraft.ssago.org/api/check?uuid=" + p.getUniqueId().toString());
+            endpoint = new URL("http://localhost:8000/api/check?uuid=" + p.getUniqueId().toString());
         } catch (MalformedURLException e) {
             plugin.getLogger().severe("Bad URL: " + e.toString());
         }
