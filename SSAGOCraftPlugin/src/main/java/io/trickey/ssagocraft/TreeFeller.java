@@ -39,12 +39,14 @@ public class TreeFeller implements Listener {
                 HashSet<Block> logs = new HashSet<>();
                 HashSet<Block> leaves = new HashSet<>();
                 getTree(block, logs, leaves);
-                Material type = logs.iterator().next().getType();
-                for(Block log : logs){
-                    log.setType(Material.AIR);
+                if (logs.size() > 0){
+                    Material type = logs.iterator().next().getType();
+                    for(Block log : logs){
+                        log.setType(Material.AIR);
+                    }
+                    World world = player.getWorld();
+                    world.dropItem(block.getLocation(), new ItemStack(type, logs.size()));
                 }
-                World world = player.getWorld();
-                world.dropItem(block.getLocation(), new ItemStack(type, logs.size()));
             }
         }
     }
