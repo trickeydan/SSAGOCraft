@@ -1,7 +1,5 @@
 package io.trickey.SSAGOCraftProxy;
 
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.PendingConnection;
 import net.md_5.bungee.api.event.LoginEvent;
@@ -31,13 +29,21 @@ public class LoginListener implements Listener {
         plugin.getProxy().getScheduler().runAsync(plugin, () -> {
             plugin.getLogger().info("Checking whitelist status of " + p.getName() + "(" + p.getUniqueId() + ")");
             try {
-                if (!wc.isWhitelisted(p)) {
-                    plugin.getLogger().info(p.getName() + "(" + p.getUniqueId() + ") was not found on the whitelist.");
-
-                    event.setCancelReason(new TextComponent("Please register your Minecraft Account at https://minecraft.ssago.org"));
-                    event.setCancelled(true);
-                } else {
-                    plugin.getLogger().info(p.getName() + " was found on the whitelist.");
+                WhitelistResult result = wc.isWhitelisted(p);
+                switch(result){
+                    case WHITELISTED:
+                        plugin.getLogger().info(p.getName() + " was found on the whitelist.");
+                        break;
+                    case NOT_WHITELISTED:
+                        plugin.getLogger().info(p.getName() + "(" + p.getUniqueId() + ") was not found on the whitelist.");
+                        event.setCancelReason(new TextComponent("Please register your Minecraft Account at https://minecraft.ssago.org"));
+                        event.setCancelled(true);
+                        break;
+                    case BANNED:
+                        plugin.getLogger().info(p.getName() + "(" + p.getUniqueId() + ") rejected due to ban.");
+                        event.setCancelReason(new TextComponent("Your account is banned. Please contact the SSAGO minecraft team on minecraft@ssago.org"));
+                        event.setCancelled(true);
+                        break;
                 }
             } catch(IOException e){
                 plugin.getLogger().severe("Whitelist Error: " + e.toString());

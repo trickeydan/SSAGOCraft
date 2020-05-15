@@ -15,7 +15,7 @@ public class WhitelistChecker {
         this.plugin = plugin;
     }
 
-    public boolean isWhitelisted(PendingConnection p) throws IOException {
+    public WhitelistResult isWhitelisted(PendingConnection p) throws IOException {
         URL endpoint = new URL("http://localhost:8000/api/check?uuid=" + p.getUniqueId().toString());
         HttpURLConnection con = (HttpURLConnection) endpoint.openConnection();
         con.setRequestMethod("GET");
@@ -24,9 +24,11 @@ public class WhitelistChecker {
         int status = con.getResponseCode();
         switch(status){
             case 200:
-                return true;
+                return WhitelistResult.WHITELISTED;
             case 401:
-                return false;
+                return WhitelistResult.NOT_WHITELISTED;
+            case 403:
+                return WhitelistResult.BANNED;
             default:
                 throw new IOException("Received error code " + Integer.toString(status));
         }

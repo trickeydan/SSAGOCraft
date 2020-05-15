@@ -7,7 +7,8 @@ def check():
     if "uuid" not in request.args.keys():
         return "Bad Request", 400
     
-    if True:
-        return "User on whitelist", 200
-    else:
-        return "User not on whitelist", 401
+    # 200 - whitelist
+    # 401 - not whitelist
+    # 403 - banned
+
+    return "Arbitrary Content", 403
