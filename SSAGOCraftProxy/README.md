@@ -2,7 +2,7 @@
 
 Plugin for BungeeCord to ensure that Players are whitelisted.
 
-Queries the `SSAGOCraftWeb` program for whitelist status.
+Queries the SSAGO website for whitelist status.
 
 ## Building
 
