@@ -13,8 +13,8 @@ import java.io.IOException;
 
 public class LoginListener implements Listener {
 
-    Plugin plugin;
-    WhitelistChecker wc;
+    private final Plugin plugin;
+    private final WhitelistChecker wc;
 
     public LoginListener(Plugin plugin){
         this.plugin = plugin;
@@ -22,31 +22,31 @@ public class LoginListener implements Listener {
     }
 
     @EventHandler
-    public void onNetworkJoin(LoginEvent event) {
+    public void onNetworkJoin(final LoginEvent event) {
         if (event.isCancelled()) return;
 
-        PendingConnection p = event.getConnection();
+        final PendingConnection p = event.getConnection();
+        event.registerIntent(plugin);
 
-        try {
-            event.registerIntent(plugin);
-
+        plugin.getProxy().getScheduler().runAsync(plugin, () -> {
             plugin.getLogger().info("Checking whitelist status of " + p.getName() + "(" + p.getUniqueId() + ")");
+            try {
+                if (!wc.isWhitelisted(p)) {
+                    plugin.getLogger().info(p.getName() + "(" + p.getUniqueId() + ") was not found on the whitelist.");
 
-            if (!wc.isWhitelisted(p)) {
-                plugin.getLogger().info(p.getName() + "(" + p.getUniqueId() + ") was not found on the whitelist.");
+                    event.setCancelReason(new TextComponent("Please register your Minecraft Account at https://minecraft.ssago.org"));
+                    event.setCancelled(true);
+                } else {
+                    plugin.getLogger().info(p.getName() + " was found on the whitelist.");
+                }
+            } catch(IOException e){
+                plugin.getLogger().severe("Whitelist Error: " + e.toString());
 
-                event.setCancelReason(new TextComponent("Please register your Minecraft Account at https://minecraft.ssago.org"));
+                event.setCancelReason(new TextComponent("There was an error whilst joining. Please contact the Minecraft Team."));
                 event.setCancelled(true);
-            } else {
-                plugin.getLogger().info(p.getName() + " was found on the whitelist.");
+            } finally {
+                event.completeIntent(plugin);
             }
-        } catch(IOException e){
-            plugin.getLogger().severe("Whitelist Error: " + e.toString());
-
-            event.setCancelReason(new TextComponent("There was an error whilst joining. Please contact the Minecraft Team."));
-            event.setCancelled(true);
-        }
-        event.completeIntent(plugin);
+        });
     }
-
 }

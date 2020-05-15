@@ -5,24 +5,18 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class WhitelistChecker {
 
-    public URL endpoint;
-    protected Plugin plugin;
+    private final Plugin plugin;
 
     public WhitelistChecker(Plugin plugin){
         this.plugin = plugin;
     }
 
     public boolean isWhitelisted(PendingConnection p) throws IOException {
-        try {
-            endpoint = new URL("http://localhost:8000/api/check?uuid=" + p.getUniqueId().toString());
-        } catch (MalformedURLException e) {
-            plugin.getLogger().severe("Bad URL: " + e.toString());
-        }
+        URL endpoint = new URL("http://localhost:8000/api/check?uuid=" + p.getUniqueId().toString());
         HttpURLConnection con = (HttpURLConnection) endpoint.openConnection();
         con.setRequestMethod("GET");
         con.setConnectTimeout(500);
