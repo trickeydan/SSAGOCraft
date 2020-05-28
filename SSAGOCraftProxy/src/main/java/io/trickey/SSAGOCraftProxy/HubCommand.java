@@ -13,7 +13,7 @@ public class HubCommand extends Command {
     private final ServerInfo target;
 
     public HubCommand(){
-        super("hub");
+        super("hub", "bungeecord.server.hub");
         target = ProxyServer.getInstance().getServerInfo("hub");
     }
 
